@@ -32,3 +32,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+
+svc_acct.json
