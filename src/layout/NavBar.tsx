@@ -64,21 +64,14 @@ export default function MenuAppBar() {
             Starter App
           </Typography>
 
-          <div>
-            <Button component={Link} href="/votes" color="inherit">
-              Votes
-            </Button>
-          </div>
-          <div>
-            <Button component={Link} href="/ssdocs" color="inherit">
-              SSR docs
-            </Button>
-          </div>
-          <div>
-            <Button component={Link} href="/ssuser" color="inherit">
-              SSR user
-            </Button>
-          </div>
+          {!!user && (
+            <div>
+              <Button component={Link} href="/phrase" color="inherit">
+                Phrases
+              </Button>
+            </div>
+          )}
+
           <div>
             <IconButton
               size="large"
