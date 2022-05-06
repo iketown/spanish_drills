@@ -45,7 +45,9 @@ const BucketEditPage = () => {
       <Grid container spacing={2}>
         <PhraseList
           phrases={phrases}
-          filter={([phrase_id, phrase]) => !!bucket?.phrases[phrase_id]}
+          filter={([phrase_id, phrase]) =>
+            !!bucket?.phrases && !!bucket.phrases[phrase_id]
+          }
           isSelected={isSelectedFxn}
           buttons={([phrase_id, phrase]) => {
             const isSelected = isSelectedFxn(phrase_id);

@@ -6,6 +6,7 @@ interface PhraseListI {
   filter?: ([phrase_id, phrase]: [string, Phrase]) => boolean;
   isSelected?: (phrase_id: string) => boolean;
   buttons?: ([phrase_id, phrase]: [string, Phrase]) => React.ReactNode;
+  onClickPhrase?: (phrase_id: string) => void;
 }
 
 const PhraseList: React.FC<PhraseListI> = ({
@@ -13,6 +14,7 @@ const PhraseList: React.FC<PhraseListI> = ({
   filter,
   isSelected,
   buttons,
+  onClickPhrase,
 }) => {
   return (
     <Grid item xs={12} container spacing={2}>
@@ -30,6 +32,7 @@ const PhraseList: React.FC<PhraseListI> = ({
                     border: selected ? `1px solid ${blueGrey[300]}` : "",
                     borderRadius: "1rem",
                     position: "relative",
+                    cursor: !!onClickPhrase ? "pointer" : "auto",
                   }}
                 >
                   <ListItemText

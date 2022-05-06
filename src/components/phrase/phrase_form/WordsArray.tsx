@@ -18,6 +18,7 @@ const WordsArray = () => {
   } = useField("sp_words");
 
   useEffect(() => {
+    if (!input.value) return;
     // update array when spanish changes
     const wordsArray = input.value
       .replace(/[.,/#¿!$%^&*;:{}=-_`~()]/g, "")

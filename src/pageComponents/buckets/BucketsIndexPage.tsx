@@ -42,12 +42,12 @@ const BucketsIndexPage = () => {
             {buckets &&
               Object.entries(buckets).map(([bucket_id, bucket]) => {
                 return (
-                  <ListItem key={bucket.id}>
+                  <ListItem key={bucket_id}>
                     <ListItemText primary={bucket.title} />
                     <ListItemSecondaryAction>
                       <Button
                         onClick={() => {
-                          handleEdit(bucket.id);
+                          handleEdit(bucket_id);
                         }}
                         variant="outlined"
                         startIcon={<Edit />}
@@ -56,7 +56,7 @@ const BucketsIndexPage = () => {
                       </Button>
                       <Button
                         onClick={() => {
-                          handleStudy(bucket.id);
+                          handleStudy(bucket_id);
                         }}
                         variant="outlined"
                         startIcon={<RemoveRedEye />}

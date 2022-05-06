@@ -1,8 +1,26 @@
+import { Divider } from "@mui/material";
 import React from "react";
+import { JSONTree } from "react-json-tree";
+import { BucketCtxProvider, useBucketCtx } from "~/contexts/BucketCtx";
 import Layout from "~/layout/Layout";
 
 const BucketStudyPage = () => {
-  return <Layout>BucketStudyPage</Layout>;
+  const { bucketPhrases } = useBucketCtx();
+  return (
+    <Layout>
+      BucketStudyPage
+      <Divider />
+      <JSONTree data={bucketPhrases} />
+    </Layout>
+  );
 };
 
-export default BucketStudyPage;
+const WrappedBucketStudyPage = () => {
+  return (
+    <BucketCtxProvider>
+      <BucketStudyPage />
+    </BucketCtxProvider>
+  );
+};
+
+export default WrappedBucketStudyPage;

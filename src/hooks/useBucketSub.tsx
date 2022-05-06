@@ -1,16 +1,11 @@
-import {
-  collection,
-  onSnapshot,
-  onSnapshotsInSync,
-  query,
-} from "firebase/firestore";
-import { useEffect } from "react";
+import { collection, onSnapshot, query } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import { useAuthCtx } from "~/contexts/AuthCtx";
 import { db } from "~/utils/firebase/clientApp";
-import { useState } from "react";
 
 export const useBucketSub = () => {
   const { user_id } = useAuthCtx();
+
   const [buckets, setBuckets] = useState<{ [bucket_id: string]: Bucket }>({});
 
   useEffect(() => {

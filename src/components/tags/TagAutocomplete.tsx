@@ -7,6 +7,7 @@ import { useUserCtx } from "../../contexts/UserCtx";
 import { JSONTree } from "react-json-tree";
 import { useTagFxns } from "~/hooks/useTagFxns";
 import { useEffect } from "react";
+import { useUserFxns } from "~/hooks/useUserFxns";
 
 const filter = createFilterOptions<Tag>();
 
@@ -24,6 +25,7 @@ interface TagAutocomplete {
 
 const TagAutocomplete: React.FC<TagAutocomplete> = ({ onTagChosen }) => {
   const [value, setValue] = React.useState<Tag | null>(null);
+  useUserFxns();
   const { createTag, removeTag } = useTagFxns();
   const { userInfo } = useUserCtx();
   const myTags = userInfo?.myTags;
@@ -37,8 +39,11 @@ const TagAutocomplete: React.FC<TagAutocomplete> = ({ onTagChosen }) => {
   }, [myTags]);
 
   useEffect(() => {
-    if (!userInfo) return;
-    if (value?.tag_id && !userInfo?.myTags[value?.tag_id]) {
+    if (!userInfo || !value) return;
+    if (
+      (value?.tag_id && !userInfo?.myTags) ||
+      !userInfo?.myTags[value?.tag_id]
+    ) {
       console.log("CREATING", value);
       createTag(value)?.then(() => {
         setValue(null);
