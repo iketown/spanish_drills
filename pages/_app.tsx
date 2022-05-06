@@ -7,7 +7,9 @@ import { CacheProvider, EmotionCache } from "@emotion/react";
 import theme from "~/styles/theme";
 import createEmotionCache from "~/styles/createEmotionCache";
 import { AuthCtxProvider } from "~/contexts/AuthCtx";
+
 import { SnackbarProvider } from "notistack";
+import { UserCtxProvider } from "~/contexts/UserCtx";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -25,11 +27,13 @@ export default function MyApp(props: MyAppProps) {
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
         <AuthCtxProvider>
-          <ThemeProvider theme={theme}>
-            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-            <CssBaseline />
-            <Component {...pageProps} />
-          </ThemeProvider>
+          <UserCtxProvider>
+            <ThemeProvider theme={theme}>
+              {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+              <CssBaseline />
+              <Component {...pageProps} />
+            </ThemeProvider>
+          </UserCtxProvider>
         </AuthCtxProvider>
       </SnackbarProvider>
     </CacheProvider>

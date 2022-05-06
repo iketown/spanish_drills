@@ -1,49 +1,55 @@
-import React from "react";
 import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CircularProgress,
+  Divider,
   Grid,
   TextField,
-  Button,
-  Box,
-  Divider,
-  Card,
-  CardContent,
-  CardActions,
   Typography,
-  Switch,
-  FormGroup,
-  FormControlLabel,
-  CircularProgress,
 } from "@mui/material";
-import { Form, Field } from "react-final-form";
 import { FormApi } from "final-form";
-import FormDataView from "~/utils/FormDataView";
-import { useState } from "react";
-import FormalModeSwitch from "./FormalModeSwitch";
 import arrayMutators from "final-form-arrays";
-import WordsArray from "./WordsArray";
-import { phraseValidator } from "./phraseValidator";
-import { nanoid } from "nanoid";
+import React from "react";
+import { Field, Form } from "react-final-form";
+import TagFormSection from "~/components/tags/TagFormSection";
 import { useAuthCtx } from "~/contexts/AuthCtx";
 import { usePhraseFxns } from "~/hooks/usePhraseFxns";
+import FormDataView from "~/utils/FormDataView";
+import FormalModeSwitch from "./FormalModeSwitch";
+import { phraseValidator } from "./phraseValidator";
+import WordsArray from "./WordsArray";
 
 // TODO handle audio uploads to storage
 
 interface PhraseFormI {
   cardTitle?: string;
-  initialValues?: Phrase;
+  initialValues?: Phrase | null;
+  phraseIdCallback?: (phrase_id: string) => void;
+  onCancel?: () => void;
 }
 
-const PhraseForm: React.FC<PhraseFormI> = ({ cardTitle, initialValues }) => {
+const PhraseForm: React.FC<PhraseFormI> = ({
+  cardTitle,
+  initialValues,
+  phraseIdCallback,
+  onCancel,
+}) => {
   const { user, loading, error } = useAuthCtx();
-  const { createPhrase } = usePhraseFxns();
+  const { createPhrase, updatePhrase } = usePhraseFxns();
   const onSubmit = (values: Phrase, form: FormApi<Phrase, Partial<any>>) => {
     if (values.id) {
-      // todo handle update
-      console.log("updating", values);
+      updatePhrase({ phrase_id: values.id, phrase: values })?.then((res) => {
+        console.log("res in form", res);
+        onCancel && onCancel();
+      });
     } else {
       // todo handle save
       createPhrase(values)?.then((id) => {
         form.restart && form.restart();
+        phraseIdCallback && phraseIdCallback(id);
       });
     }
   };
@@ -70,7 +76,7 @@ const PhraseForm: React.FC<PhraseFormI> = ({ cardTitle, initialValues }) => {
         </Typography>
       )}
       <Form
-        initialValues={initialValues}
+        initialValues={initialValues || undefined}
         onSubmit={onSubmit}
         mutators={{ ...arrayMutators }}
         validate={phraseValidator}
@@ -136,8 +142,13 @@ const PhraseForm: React.FC<PhraseFormI> = ({ cardTitle, initialValues }) => {
                   <Grid item xs={12}>
                     <Divider sx={{ my: 1 }} />
                   </Grid>
-                  <Grid item xs={12}>
-                    <FormalModeSwitch />
+                  <Grid item xs={12} container spacing={2}>
+                    <Grid item xs={12} sm={3}>
+                      <FormalModeSwitch />
+                    </Grid>
+                    <Grid item xs={12} sm={9}>
+                      <TagFormSection />
+                    </Grid>
                   </Grid>
                   <Grid item xs={12}>
                     <WordsArray />
@@ -167,11 +178,11 @@ const PhraseForm: React.FC<PhraseFormI> = ({ cardTitle, initialValues }) => {
                   }}
                 >
                   <FormDataView data={values} />
-                  <Button>cancel</Button>
+                  <Button onClick={onCancel}>cancel</Button>
                   <Button
                     type="submit"
                     variant="contained"
-                    disabled={hasValidationErrors}
+                    disabled={hasValidationErrors || pristine}
                   >
                     save
                   </Button>

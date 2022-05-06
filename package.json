@@ -36,6 +36,7 @@
     "react-json-tree": "^0.16.2",
     "react-speech-recognition": "^3.9.0",
     "slugify": "^1.6.5",
+    "tiny-invariant": "^1.2.0",
     "xstate": "^4.31.0"
   },
   "devDependencies": {

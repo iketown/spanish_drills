@@ -1,18 +1,15 @@
-import React, { useEffect } from "react";
-import { useField, Field } from "react-final-form";
-import arrayMutator from "final-form-arrays";
-import { FieldArray } from "react-final-form-arrays";
 import {
-  Card,
-  FormGroup,
-  FormControlLabel,
-  Switch,
-  Checkbox,
-  Grid,
   Box,
+  Card,
+  Checkbox,
+  FormControlLabel,
+  Grid,
   Typography,
 } from "@mui/material";
-import { AddBoxOutlined } from "@mui/icons-material";
+import React, { useEffect } from "react";
+import { Field, useField } from "react-final-form";
+import { FieldArray } from "react-final-form-arrays";
+import WordAlternates from "./WordAlternates";
 
 const WordsArray = () => {
   const { input, meta } = useField("spanish");
@@ -48,6 +45,13 @@ const WordsArray = () => {
                           <Typography sx={{ textAlign: "center" }}>
                             {input.value.word}
                           </Typography>
+                          <WordAlternates
+                            onChange={(alts) => {
+                              input.onChange({ ...input.value, alts });
+                            }}
+                            savedAlts={input.value.alts || []}
+                            mainWord={input.value.word}
+                          />
                           <FormControlLabel
                             control={
                               <Checkbox

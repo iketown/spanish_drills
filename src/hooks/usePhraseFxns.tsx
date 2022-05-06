@@ -1,11 +1,26 @@
-import { db } from "~/utils/firebase/clientApp";
-import { collection, doc, setDoc, addDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  query,
+  updateDoc,
+  where,
+  doc,
+} from "firebase/firestore";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useCollection } from "react-firebase-hooks/firestore";
 import { useAuthCtx } from "~/contexts/AuthCtx";
+import { db } from "~/utils/firebase/clientApp";
+import invariant from "tiny-invariant";
+
+import { useBucketFxns } from "./useBucketFxns";
 import { useToast } from "./useToast";
 
 export const usePhraseFxns = () => {
-  const { user, user_id } = useAuthCtx();
+  const { user_id } = useAuthCtx();
   const { toast } = useToast();
+
   const createPhrase = (phrase: Phrase) => {
     if (!user_id) {
       toast("must sign in first", "warning");
@@ -13,9 +28,8 @@ export const usePhraseFxns = () => {
     }
     const created_at = new Date().valueOf();
     const updated_at = created_at;
-    return addDoc(collection(db, "phrases"), {
+    return addDoc(collection(db, "users", user_id, "phrases"), {
       ...phrase,
-      user_id,
       created_at,
       updated_at,
     }).then(({ id }) => {
@@ -24,5 +38,25 @@ export const usePhraseFxns = () => {
       return id;
     });
   };
-  return { createPhrase };
+  const updatePhrase = ({
+    phrase_id,
+    phrase,
+  }: {
+    phrase_id: string;
+    phrase: Phrase;
+  }) => {
+    if (!user_id) {
+      toast("must sign in first", "warning");
+      return;
+    }
+    invariant(!!phrase_id, "must pass phrase_id");
+    return updateDoc(doc(db, "users", user_id, "phrases", phrase_id), {
+      ...phrase,
+    })?.then((response) => {
+      console.log("update response", response);
+      toast(`updated: ${phrase.spanish}`);
+      return phrase;
+    });
+  };
+  return { createPhrase, updatePhrase };
 };

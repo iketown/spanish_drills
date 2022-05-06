@@ -65,11 +65,18 @@ export default function MenuAppBar() {
           </Typography>
 
           {!!user && (
-            <div>
-              <Button component={Link} href="/phrase" color="inherit">
-                Phrases
-              </Button>
-            </div>
+            <>
+              <div>
+                <Button component={Link} href="/buckets" color="inherit">
+                  Buckets
+                </Button>
+              </div>
+              <div>
+                <Button component={Link} href="/phrase" color="inherit">
+                  Phrases
+                </Button>
+              </div>
+            </>
           )}
 
           <div>

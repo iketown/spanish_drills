@@ -13,4 +13,5 @@ interface Phrase {
 interface WordEntry {
   word: string;
   optional?: boolean;
+  alts?: string[];
 }
