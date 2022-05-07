@@ -1,10 +1,9 @@
 import { Button, Grid } from "@mui/material";
 import React, { useState } from "react";
-import { JSONTree } from "react-json-tree";
 import PhraseList from "~/components/phrase/PhraseList";
 import PhraseForm from "~/components/phrase/phrase_form/PhraseForm";
-import { usePhraseFxns } from "~/hooks/usePhraseFxns";
 import Layout from "~/layout/Layout";
+import JTree from "~/utils/JTree";
 import { PhraseCtxProvider, usePhraseCtx } from "../../contexts/PhraseCtx";
 
 const PhraseIndexPage = () => {
@@ -34,7 +33,7 @@ const PhraseIndexPage = () => {
           />
         </Grid>
         <Grid item>
-          <JSONTree data={phrases} hideRoot />
+          <JTree data={phrases} />
         </Grid>
       </Grid>
     </Layout>

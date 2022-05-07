@@ -125,10 +125,26 @@ export const useBucketFxns = () => {
       { merge: true }
     );
   };
+
+  const updatePublicBucket = () => {
+    if (!bucket_id || !user_id || !bucket) return;
+    const title = bucket.title;
+    const phrases = Object.values(bucketPhrases).map(
+      ({ spanish, english, sp_words }) => ({ spanish, english, sp_words })
+    );
+    const updated_at = new Date().valueOf();
+    setDoc(doc(db, "publicBuckets", bucket_id), {
+      phrases,
+      title,
+      updated_at,
+      user_id,
+    });
+  };
   return {
     addPhraseToBucket,
     removePhraseFromBucket,
     bucket,
     bucketPhrases,
+    updatePublicBucket,
   };
 };

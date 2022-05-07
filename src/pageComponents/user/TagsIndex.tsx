@@ -8,11 +8,11 @@ import {
   ListItemText,
 } from "@mui/material";
 import React from "react";
-import { JSONTree } from "react-json-tree";
 import TagAutocomplete from "~/components/tags/TagAutocomplete";
 import { useUserCtx } from "~/contexts/UserCtx";
 import { useTagFxns } from "~/hooks/useTagFxns";
 import Layout from "~/layout/Layout";
+import JTree from "~/utils/JTree";
 
 const TagsIndex = () => {
   const { userInfo } = useUserCtx();
@@ -44,7 +44,7 @@ const TagsIndex = () => {
           />
         </ListItem>
       </List>
-      <JSONTree data={userInfo} />
+      <JTree data={userInfo} />
     </Layout>
   );
 };

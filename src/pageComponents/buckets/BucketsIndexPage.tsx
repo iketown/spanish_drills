@@ -1,24 +1,19 @@
-import { addDoc, collection, query, where } from "firebase/firestore";
-import React from "react";
-
-import { useCollection } from "react-firebase-hooks/firestore";
-import { useAuthCtx } from "~/contexts/AuthCtx";
-import Layout from "~/layout/Layout";
-import { db } from "~/utils/firebase/clientApp";
-import { JSONTree } from "react-json-tree";
+import { Edit, RemoveRedEye } from "@mui/icons-material";
 import {
-  Grid,
   Button,
-  Card,
+  Grid,
   List,
   ListItem,
-  ListItemText,
   ListItemSecondaryAction,
+  ListItemText,
 } from "@mui/material";
-import BucketForm from "~/components/buckets/BucketForm";
-import { Edit, PanoramaFishEye, RemoveRedEye } from "@mui/icons-material";
 import { useRouter } from "next/router";
+import React from "react";
+import BucketForm from "~/components/buckets/BucketForm";
+import { useAuthCtx } from "~/contexts/AuthCtx";
 import { useBucketSub } from "~/hooks/useBucketSub";
+import Layout from "~/layout/Layout";
+import JTree from "~/utils/JTree";
 
 const BucketsIndexPage = () => {
   const { user_id = "" } = useAuthCtx();
@@ -68,7 +63,7 @@ const BucketsIndexPage = () => {
                 );
               })}
           </List>
-          {buckets && <JSONTree data={buckets} hideRoot />}
+          {buckets && <JTree data={buckets} />}
         </Grid>
       </Grid>
     </Layout>

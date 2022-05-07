@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Drawer } from "@mui/material";
-import { JSONTree } from "react-json-tree";
+import JTree from "./JTree";
 
 interface FormDataViewI {
   data: any;
@@ -17,7 +17,7 @@ const FormDataView: React.FC<FormDataViewI> = ({ data }) => {
         sx={{ minWidth: "50vw" }}
       >
         FormDataView hey hi hello
-        <JSONTree data={data} />
+        <JTree data={data} />
       </Drawer>
       <Button
         variant={dataOpen ? "outlined" : "contained"}

@@ -10,18 +10,25 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { JSONTree } from "react-json-tree";
+
 import PhraseDialog from "~/components/phrase/PhraseDialog";
 import PhraseList from "~/components/phrase/PhraseList";
 import PhraseForm from "~/components/phrase/phrase_form/PhraseForm";
 import { useBucketFxns } from "~/hooks/useBucketFxns";
 import Layout from "~/layout/Layout";
 import { PhraseCtxProvider, usePhraseCtx } from "~/contexts/PhraseCtx";
+import DataDrawer from "~/utils/DataDrawer";
+import JTree from "~/utils/JTree";
 
 const BucketEditPage = () => {
   const { query: routerQuery } = useRouter();
-  const { addPhraseToBucket, removePhraseFromBucket, bucket, bucketPhrases } =
-    useBucketFxns();
+  const {
+    addPhraseToBucket,
+    removePhraseFromBucket,
+    bucket,
+    bucketPhrases,
+    updatePublicBucket,
+  } = useBucketFxns();
 
   const { phrases } = usePhraseCtx();
   const [phraseDialogOpen, setPhraseDialogOpen] = useState(false);
@@ -41,6 +48,7 @@ const BucketEditPage = () => {
         handleClose={() => setPhraseDialogOpen(false)}
         editingPhrase={editingPhrase}
       />
+
       <Typography variant="h5">{bucket?.title}</Typography>
       <Grid container spacing={2}>
         <PhraseList
@@ -91,9 +99,9 @@ const BucketEditPage = () => {
         </AccordionDetails>
       </Accordion>
       <Box sx={{ pt: 20, mt: 5, bgcolor: "gainsboro" }} />
-      <JSONTree data={bucketPhrases} hideRoot />
-      <JSONTree data={phrases} hideRoot />
-      <JSONTree data={bucket} hideRoot />
+      <JTree data={bucketPhrases} />
+      <JTree data={phrases} />
+      <JTree data={bucket} />
     </Layout>
   );
 };

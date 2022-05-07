@@ -4,7 +4,6 @@ import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import { nanoid } from "nanoid";
 
 import { useUserCtx } from "../../contexts/UserCtx";
-import { JSONTree } from "react-json-tree";
 import { useTagFxns } from "~/hooks/useTagFxns";
 import { useEffect } from "react";
 import { useUserFxns } from "~/hooks/useUserFxns";
@@ -99,7 +98,6 @@ const TagAutocomplete: React.FC<TagAutocomplete> = ({ onTagChosen }) => {
           return <TextField {...params} label="add tag" />;
         }}
       />
-      {/* <JSONTree data={userTags} /> */}
     </>
   );
 };
